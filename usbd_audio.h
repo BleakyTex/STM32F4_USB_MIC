@@ -157,7 +157,7 @@ typedef struct
   uint16_t rd_ptr;
   uint16_t wr_ptr;
   /* mic */
-  int16_t in_buffer[(AUDIO_IN_PACKET / 2) * 2];
+  int16_t in_buffer[AUDIO_IN_PACKET];
   uint8_t in_buffer_half;
 	/* control */
   USBD_AUDIO_ControlTypeDef control;

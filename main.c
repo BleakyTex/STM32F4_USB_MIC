@@ -35,11 +35,11 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ADC_BUF_SIZE 16      /* ADC oversampling buffer. Make sure to state the correct  
+#define OSA_BUF_SIZE 16      /* ADC oversampling buffer. Make sure to state the correct  
                                 shift and offset amount in HAL_ADC_ConvCpltCallback() and
                                 adjust the sampling frequency accordingly */
 extern USBD_HandleTypeDef hUsbDeviceFS;
-int16_t adc_buffer[ADC_BUF_SIZE * AUDIO_IN_PACKET / 2] = {0};
+int16_t adc_buffer[OSA_BUF_SIZE * AUDIO_IN_PACKET / 2] = {0};
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -76,8 +76,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 	/* Oversample for +2 bits */
 	for (uint16_t i = 0; i < (AUDIO_IN_PACKET / 2); i++) {
   	int32_t avg_value = 0;
-		for (uint16_t j = 0; j < ADC_BUF_SIZE; j++) {
-			avg_value += adc_buffer[ADC_BUF_SIZE * i + j];
+		for (uint16_t j = 0; j < OSA_BUF_SIZE; j++) {
+			avg_value += adc_buffer[OSA_BUF_SIZE * i + j];
 		}
     // bit shift for signed variables is undefined behaviour
 		// Don't forget the mic amp offset: 0-1706, 1-3413, 2-6826
@@ -87,7 +87,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
 
 void ADC_to_MIC(void)
 {
-	HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_buffer, ADC_BUF_SIZE * (AUDIO_IN_PACKET / 2)); // Start ADC transfer into oversampling buffer
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_buffer, OSA_BUF_SIZE * (AUDIO_IN_PACKET / 2)); // Start ADC transfer into oversampling buffer
 }
 /* USER CODE END 0 */
 
