@@ -340,7 +340,7 @@ static uint8_t USBD_AUDIO_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
   USBD_LL_OpenEP (pdev, AUDIO_IN_EP, USBD_EP_TYPE_ISOC, AUDIO_IN_PACKET);
   pdev->ep_in[AUDIO_IN_EP & 0xFU].is_used = 1U;
 	
-  /* Make first mic transmission */
+  /* Make a dummy transmission */
 	USBD_LL_FlushEP  (pdev, AUDIO_IN_EP);
 	USBD_LL_Transmit (pdev, AUDIO_IN_EP,
 									 (uint8_t*)&haudio->in_buffer[AUDIO_IN_PACKET * !!haudio->in_buffer_half], AUDIO_IN_PACKET);
